@@ -332,7 +332,7 @@ const Portfolio = () => {
       {/* Sobre Section */}
       <section
         id="sobre"
-        className="py-[12rem] px-4 bg-gradient-to-b from-gray-950 to-gray-900"
+        className="py-24 md:py-52 px-4 bg-gradient-to-b from-gray-950 to-gray-900"
       >
         <div className="max-w-6xl mx-auto">
           <ScrollReveal>
@@ -345,20 +345,20 @@ const Portfolio = () => {
 
           <div className="grid md:grid-cols-2 gap-12 items-center -mt-10">
             <ScrollReveal delay={200}>
-            <div className="relative -mt-115 -ml-64">
-              <div className="w-82 h-82 mx-auto rounded-full bg-gradient-to-br from-cyan-500 to-purple-600 p-1">
-                <div className="w-full h-full rounded-full bg-gray-900 flex items-center justify-center overflow-hidden ">
-                  <img
-                    src="/photo.jpg"
-                    alt="imagem filipe"
-                    width={350}
-                    height={209}
-                    className="rounded-full bg-gray-900 overflow-hidden"
-                  />
-                </div>
-              </div>
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-cyan-500/20 rounded-full blur-3xl -z-10"></div>
+            <div className="relative flex justify-center">
+             <div className="w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full bg-gradient-to-br from-cyan-500 to-purple-600 p-1">
+            <div className="w-full h-full rounded-full bg-gray-900 flex items-center justify-center overflow-hidden">
+              <img
+                src="/photo.jpg"
+                alt="Filipe"
+                className="w-full h-full object-cover rounded-full"
+              />
             </div>
+              </div>
+              <div
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-cyan-500/20 rounded-full blur-3xl -z-10"
+            aria-hidden="true"/>
+        </div>
             </ScrollReveal>
 
             <ScrollReveal delay={400}>
