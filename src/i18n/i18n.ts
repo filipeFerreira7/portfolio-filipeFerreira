@@ -1,25 +1,25 @@
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
-import HttpBackend from 'i18next-http-backend';
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
 
-i18n
-  .use(HttpBackend)
-  .use(LanguageDetector)
-  .use(initReactI18next)
-  .init({
-    fallbackLng: 'pt',
-    supportedLngs: ['pt', 'en'], // idiomas suportados
+// ✅ IMPORTA DIRETO (obrigatório na Vercel)
+import pt from "./locales/pt/translation.json";
+import en from "./locales/en/translation.json";
+
+if (!i18n.isInitialized) {
+  i18n.use(initReactI18next).init({
+    resources: {
+      pt: { translation: pt },
+      en: { translation: en },
+    },
+    lng: "pt",
+    fallbackLng: "pt",
     interpolation: {
       escapeValue: false,
     },
-    backend: {
-      loadPath: '/locales/{{lng}}/translation.json', // arquivos em public/locales
-    },
-    detection: {
-      order: ['localStorage', 'navigator', 'htmlTag'],
-      caches: ['localStorage'],
+    react: {
+      useSuspense: false,
     },
   });
+}
 
 export default i18n;

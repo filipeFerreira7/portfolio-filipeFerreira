@@ -1,15 +1,17 @@
 "use client";
-import '@/i18n/i18n';
+
+import { useEffect, useState, useRef } from "react";
+import i18n from "@/i18n/i18n";
+import { useTranslation } from "react-i18next";
 import Image from "next/image";
-import React, { useState, useEffect, useRef } from "react";
+
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-
-export const dynamic = 'force-dynamic';
 
 import {
   ChevronDown,
@@ -20,7 +22,7 @@ import {
   Database,
   Scroll,
 } from "lucide-react";
-import { useTranslation } from 'react-i18next';
+
 
 const featuredProjects = [
   {
@@ -82,7 +84,7 @@ const ScrollReveal = ({ children, className = "", delay = 1 }: {
 };
 
 const Portfolio = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [isClient, setIsClient] = useState(false); 
   
   const [currentLanguage, setCurrentLanguage] = useState('pt');
@@ -91,6 +93,9 @@ const Portfolio = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
+    if(!i18n.isInitialized) {
+        i18n.init();
+    }
     setIsClient(true);
     setCurrentLanguage(i18n.language || 'pt');
 
