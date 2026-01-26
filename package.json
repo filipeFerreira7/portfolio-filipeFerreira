@@ -2,17 +2,18 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
-    "start": "next start"
-  },
+ "scripts": {
+  "dev": "next dev --turbopack",
+  "build": "next build",
+  "start": "next start",
+  "postinstall": "npm config set audit false"
+},
   "dependencies": {
     "i18next": "^25.8.0",
     "i18next-browser-languagedetector": "^8.2.0",
     "i18next-http-backend": "^3.0.2",
     "lucide-react": "^0.546.0",
-    "next": "15.5.6",
+    "next": "15.2.4",
     "next-intl": "^4.7.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
