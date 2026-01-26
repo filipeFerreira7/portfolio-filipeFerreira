@@ -7,6 +7,7 @@ import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import dynamic from 'next/dynamic';
 import {
   ChevronDown,
   Github,
@@ -89,6 +90,7 @@ const Portfolio = () => {
   useEffect(() => {
     setIsClient(true);
     setCurrentLanguage(i18n.language || 'pt');
+
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
       const sections = ["home", "sobre", "skills", "projetos", "contato"];
@@ -102,13 +104,14 @@ const Portfolio = () => {
       });
       if (current) setActiveSection(current);
     };
+
     window.addEventListener("scroll", handleScroll);
-   return (
-      
-    ) => window.removeEventListener("scroll", handleScroll);
+   return () => {window.removeEventListener("scroll", handleScroll);
+   };
   }, []);
+  
    if(!isClient) return null;
-   
+
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
