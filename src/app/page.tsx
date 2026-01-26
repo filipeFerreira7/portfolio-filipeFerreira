@@ -1,4 +1,5 @@
 "use client";
+import '@/i18n/i18n';
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -15,36 +16,39 @@ import {
   Database,
   Scroll,
 } from "lucide-react";
-
+import { useTranslation } from 'react-i18next';
 
 const featuredProjects = [
   {
     image: '/project-1-sismato.jpg',
-    title: 'Sisma-TO',
-    subtitle: 'Sistema de monitoramento da água e saneamento do Tocantins',
+    title: 'sisma_title',
+    subtitle: 'sisma_subtitle',
   },
   {
     image: '/project-1-sismato-2.jpg',
+    title: 'sisma_title',
+    subtitle: 'sisma_subtitle',
   },
   {
     image: '/project-2-registra-sistemas.jpg',
-    title: 'Registra Sistemas - TRE-TO',
-    subtitle: 'Sistema de centralização de sistemas publicados (em produção/homologação)',
+    title: 'registra_title',
+    subtitle: 'registra_subtitle',
   },
   {
-    image: '/project-2-registra-sistemas-2.jpg'
+    image: '/project-2-registra-sistemas-2.jpg',
+     title: 'registra_title',
+    subtitle: 'registra_subtitle'
   }
 ];
 
 //Scroll Reveal
-const ScrollReveal = ({ children, className = "", delay = 1 }: { 
-  children: React.ReactNode; 
-  className?: string; 
+const ScrollReveal = ({ children, className = "", delay = 1 }: {
+  children: React.ReactNode;
+  className?: string;
   delay?: number;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
-
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -55,19 +59,17 @@ const ScrollReveal = ({ children, className = "", delay = 1 }: {
       },
       { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
     );
-
     if (ref.current) observer.observe(ref.current);
-
     return () => observer.disconnect();
   }, [delay]);
-
+  
   return (
     <div
       ref={ref}
       className={`transition-all duration-800 ease-out ${
         isVisible
           ? "opacity-100 translate-y-0"
-          : "opacity-0 translate-y-10-4"
+          : "opacity-0 translate-y-10"
       } ${className}`}
     >
       {children}
@@ -76,14 +78,19 @@ const ScrollReveal = ({ children, className = "", delay = 1 }: {
 };
 
 const Portfolio = () => {
+  const { t, i18n } = useTranslation();
+  const [isClient, setIsClient] = useState(false); 
+  
+  const [currentLanguage, setCurrentLanguage] = useState('pt');
   const [activeSection, setActiveSection] = useState("home");
   const [scrolled, setScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
+    setCurrentLanguage(i18n.language || 'pt');
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
-
       const sections = ["home", "sobre", "skills", "projetos", "contato"];
       const current = sections.find((section) => {
         const element = document.getElementById(section);
@@ -93,14 +100,15 @@ const Portfolio = () => {
         }
         return false;
       });
-
       if (current) setActiveSection(current);
     };
-
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+   return (
+      
+    ) => window.removeEventListener("scroll", handleScroll);
   }, []);
-
+   if(!isClient) return null;
+   
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -159,26 +167,22 @@ const Portfolio = () => {
       color: "from-orange-400 to-orange-600",
     },
   ];
-
   const projects = [
     {
-      title: "Biblioteca Simples em Java",
-      description:
-        "Exemplo básico de CRUD em java usando separação em camadas, com SpringBoot e persistência em H2",
-      tech: ["Java", "Spring Boot", "H2"],
+      title: "ecommerceemjavacomquarkus",
+      description: "e-commerceemjavacomquarkus_description",
+      tech: ["Java", "Quarkus", "Postgres"],
       github: "https://github.com/filipeFerreira7/biblioteca-simples-java",
       color: "from-cyan-500 to-blue-600",
     },
     {
-      title: "API de Gestão Residencial - InviteUs (Convites) ",
-      description:
-        "API para gerenciamento de convites residenciais, como acesso a condomínios e apartamentos..",
+      title: "apidegestaoresidencialinviteusconvites",
+      description: "apidegestaoresidencialinviteusconvites_description",
       tech: ["Java", "SpringBoot", "Docker"],
       github: "https://github.com/filipeFerreira7/inviteUs-api",
       color: "from-purple-500 to-pink-600",
     },
   ];
-
   return (
     <div className="bg-gray-950 text-gray-100 min-h-screen overflow-x-hidden">
       {/* Navbar */}
@@ -195,12 +199,26 @@ const Portfolio = () => {
               className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent cursor-pointer"
               onClick={() => scrollToSection("home")}
             ></div>
+            <div className="flex items-center gap-2 p-8">
+              <button
+                onClick={() => i18n.changeLanguage('pt')}
+                className={`px-3 py-1 rounded ${i18n.language === 'pt' ? 'bg-cyan-500/30 text-cyan-400' : 'text-gray-400'}`}
+              >
+                PT
+              </button>
+              <span className="text-gray-500">|</span>
+              <button
+                onClick={() => i18n.changeLanguage('en')}
+                className={`px-3 py-1 rounded ${i18n.language === 'en' ? 'bg-cyan-500/30 text-cyan-400' : 'text-gray-400'}`}
+              >
+                EN
+              </button>
+            </div>
 
             {/* Desktop Menu */}
             <div className="hidden md:flex space-x-8">
-              {["Home", "Sobre", "Skills", "Projetos", "Contato"].map(
-                (label) => {
-                  const section = label.toLowerCase();
+              {["home", "sobre", "skills", "projetos", "contato"].map(
+                (section) => {
                   return (
                     <button
                       key={section}
@@ -210,7 +228,7 @@ const Portfolio = () => {
                           : "text-gray-300 hover:text-cyan-400"
                         }`}
                     >
-                      {label}
+                      {t(`nav.${section}`)}
                       {activeSection === section && (
                         <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-cyan-400 to-purple-500 animate-pulse"></span>
                       )}
@@ -242,16 +260,14 @@ const Portfolio = () => {
             </button>
           </div>
         </div>
-
         <div
           className={`md:hidden overflow-hidden transition-all duration-300 ${isMenuOpen ? "max-h-96" : "max-h-0"
             }`}
         >
           <div className="bg-gray-900/98 backdrop-blur-md border-t border-gray-800">
             <div className="px-4 py-4 space-y-3">
-              {["Home", "Sobre", "Skills", "Projetos", "Contato"].map(
-                (label) => {
-                  const section = label.toLowerCase();
+              {["home", "sobre", "skills", "projetos", "contato"].map(
+                (section) => {
                   return (
                     <button
                       key={section}
@@ -261,7 +277,7 @@ const Portfolio = () => {
                           : "text-gray-300 hover:bg-gray-800"
                         }`}
                     >
-                      {label}
+                      {t(`nav.${section}`)}
                     </button>
                   );
                 }
@@ -270,7 +286,6 @@ const Portfolio = () => {
           </div>
         </div>
       </nav>
-
       {/* Hero Section */}
       <section
         id="home"
@@ -285,42 +300,34 @@ const Portfolio = () => {
             backgroundSize: "50px 50px",
           }}
         ></div>
-
         <div className="relative z-10 text-center px-4 max-w-5xl mx-auto mb-60 mt-10">
          <ScrollReveal delay={200}>
             <div className="inline-block mb-6 px-4 py-2 border border-cyan-500/30 rounded-full text-cyan-400 text-sm animate-pulse">
-              Disponível para projetos
+              {t('hero.available')}
             </div>
           </ScrollReveal>
-
           <ScrollReveal delay={400}>
             <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight mt-5">
-              <span className="text-gray-300">Olá, me chamo Filipe!</span>
+              <span className="text-gray-300">{t('hero.greeting')}</span>
               <br />
               <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
-                Sou Desenvolvedor de Sistemas
+                {t('hero.title')}
               </span>
             </h1>
           </ScrollReveal>
-
           <ScrollReveal delay={600}>
-            <p className="text-xl md:text-2xl text-gray-400 mb-8 max-w-3xl mx-auto">
-              Principais stacks: <b>Java, SpringBoot, PHP, Typescript, Laravel.</b><br />
-              <b>Criando novas experiências com a tecnologia!</b>
-            </p>
+            <p className="text-xl md:text-2xl text-gray-400 mb-8 max-w-3xl mx-auto" dangerouslySetInnerHTML={{ __html: t('hero.stacks') }}></p>
           </ScrollReveal>
-
           <ScrollReveal delay={800}>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <button onClick={() => scrollToSection("projetos")} className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-lg font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition-all transform hover:scale-105">
-                Ver Projetos
+                {t('hero.view_projects')}
               </button>
               <button onClick={() => scrollToSection("contato")} className="px-8 py-4 border-2 border-cyan-500 rounded-lg font-semibold hover:bg-cyan-500/10 transition-all">
-                Entrar em Contato
+                {t('hero.get_in_touch')}
               </button>
             </div>
           </ScrollReveal>
-
           <ScrollReveal delay={1000}>
             <button onClick={() => scrollToSection("sobre")} className="absolute bottom-[-100px] left-1/2 transform -translate-x-1/2 animate-bounce">
               <ChevronDown className="w-8 h-8 text-cyan-400" />
@@ -328,7 +335,6 @@ const Portfolio = () => {
           </ScrollReveal>
         </div>
       </section>
-
       {/* Sobre Section */}
       <section
         id="sobre"
@@ -338,11 +344,10 @@ const Portfolio = () => {
           <ScrollReveal>
           <h2 className="text-4xl md:text-5xl font-bold mb-40 text-center -mt-30">
             <span className="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
-              Sobre Mim
+              {t('about.title')}
             </span>
           </h2>
           </ScrollReveal>
-
           <div className="grid md:grid-cols-2 gap-12 items-center -mt-10">
             <ScrollReveal delay={200}>
             <div className="relative flex justify-center">
@@ -360,48 +365,19 @@ const Portfolio = () => {
             aria-hidden="true"/>
         </div>
             </ScrollReveal>
-
             <ScrollReveal delay={400}>
             <div className="space-y-6 -mt-10">
-              <p className="text-lg text-gray-300 leading-relaxed">
-                Sou desenvolvedor Back-End com{" "}
-                <b>
-                  foco em Java, Spring Boot, PHP, APIs REST e práticas DevOps.
-                </b> Tenho experiências práticas em projetos organizacionais e
-                acadêmicos, sempre com ambição por criar soluções escaláveis e
-                eficientes. Atualmente, estudo <b>Java há mais de 3 anos</b>,
-                período em que aprimorei minhas habilidades em design de
-                sistemas, integração de serviços e boas práticas de arquitetura.
-              </p>
-              <p className="text-lg text-gray-300 leading-relaxed">
-                Durante meu estágio no{" "}
-                <b>Tribunal Regional Eleitoral do Tocantins (TRE-TO)</b>, atuei
-                na área de
-                <b> infraestrutura e desenvolvimento de Sistemas Internos</b>.
-                Participei da criação e manutenção de
-                <b> aplicações publicadas</b> que facilitaram o trabalho diário
-                dos servidores públicos, otimizando fluxos administrativos e
-                garantindo maior eficiência nos processos internos. Essa
-                experiência me deu uma visão sólida sobre o impacto da
-                tecnologia dentro de ambientes corporativos e governamentais.
-              </p>
-              <p className="text-lg text-gray-300 leading-relaxed">
-                Ao longo da minha trajetória, desenvolvi e colaborei em diversos
-                projetos desafiadores, desde sistemas de e-commerce até
-                microserviços complexos. Meu foco está em escrever{" "}
-                <b>código limpo, testável e mantível</b>, sempre buscando
-                alinhar performance com qualidade técnica. Acredito que
-                tecnologia é sobre resolver problemas reais — e é isso que me
-                motiva todos os dias como desenvolvedor.
-              </p>
+              <p className="text-lg text-gray-300 leading-relaxed" dangerouslySetInnerHTML={{ __html: t('about.description_1') }}></p>
+              <p className="text-lg text-gray-300 leading-relaxed" dangerouslySetInnerHTML={{ __html: t('about.description_2') }}></p>
+              <p className="text-lg text-gray-300 leading-relaxed" dangerouslySetInnerHTML={{ __html: t('about.description_3') }}></p>
               <div className="flex flex-wrap gap-4 pt-4">
                 <div className="flex items-center gap-2 text-cyan-400">
                   <Server className="w-5 h-5" />
-                  <span>1+ ano de experiência</span>
+                  <span>{t('about.experience')}</span>
                 </div>
                 <div className="flex items-center gap-2 text-purple-400">
                   <Database className="w-5 h-5" />
-                  <span>2+ projetos publicados</span>
+                  <span>{t('about.published_projects')}</span>
                 </div>
               </div>
             </div>
@@ -409,16 +385,14 @@ const Portfolio = () => {
           </div>
         </div>
       </section>
-
       {/* Skills Section */}
       <section id="skills" className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
             <span className="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
-              Habilidades
+              {t('skills.title')}
             </span>
           </h2>
-
           <div className="grid md:grid-cols-2 gap-8">
             {skills.map((skill, index) => (
               <ScrollReveal key={index} delay={index * 250}>
@@ -447,7 +421,6 @@ const Portfolio = () => {
           </div>
         </div>
       </section>
-
       {/* Projetos Section */}
       <section
         id="projetos"
@@ -457,11 +430,10 @@ const Portfolio = () => {
           <ScrollReveal>
           <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
             <span className="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
-              Projetos
+              {t('projects.title')}
             </span>
           </h2>
           </ScrollReveal>
-
         { /* Carrossel */ }
         <ScrollReveal delay={200}>
           <div className="mb-16">
@@ -484,14 +456,14 @@ const Portfolio = () => {
                     <div className="aspect-video relative overflow-hidden">
                       <img
                         src={project.image}
-                        alt={project.title}
+                        alt={t(`projects.${project.title}`)}
                         className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-60"></div>
                     </div>
                     <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                      <h3 className="text-2xl font-bold mb-1">{project.title}</h3>
-                      <p className="text-cyan-300 text-sm">{project.subtitle}</p>
+                      <h3 className="text-2xl font-bold mb-1">{t(`projects.${project.title}`)}</h3>
+                      <p className="text-cyan-300 text-sm">{t(`projects.${project.subtitle}`)}</p>
                     </div>
                   </div>
                 </SwiperSlide>
@@ -499,35 +471,23 @@ const Portfolio = () => {
             </Swiper>
           </div>
           </ScrollReveal>
-          
+         
           <ScrollReveal delay={400}>
           <div className="text-center p-5 mb-20 text-lg text-gray-300 leading-relaxed">
-            <p>
-              Os projetos destacados são:{' '}
-              <b className="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent font-bold">
-                Registra Sistemas
-              </b>{' '}
-              e{' '}
-              <b className="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent font-bold">
-                Sisma-TO
-              </b>
-            </p>
-
+            <p dangerouslySetInnerHTML={{ __html: t('projects.featured_intro') }}></p>
             {/* Descrições breves abaixo */}
             <div className="mt-10 space-y-4 text-sm md:text-base">
               <p className="text-center p-5 mb-10 text-lg text-gray-300 leading-relaxed">
-                <span className="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent font-bold">Registra Sistemas</span><br></br><br/>
-                Registra Sistemas foi desenvolvido para uso interno de TRE-TO. As principais tecnologias usadas foram PHP e Laravel, e a ideia do sistema é centralizar o controle de aplicações em produção, homologação e desenvolvimento, facilitando a gestão e monitoramento de sistemas institucionais.
+                <span className="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent font-bold">{t('projects.registra_title')}</span><br></br><br/>
+                {t('projects.registra_description')}
               </p>
               <p className="text-center p-5 mb-20 text-lg text-gray-300 leading-relaxed">
-                <span className="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent font-bold">Sisma-TO</span><br></br><br/>
-                <b>Vencedor do 2º lugar no Hackathon da UNITINS (2025)</b>, O Sisma-TO (Sistema de Monitoramento e Governança da Água do Tocantins), é uma plataforma para uso governamental sobre a qualidade da água e saneamento no Tocantins.
-                O sistema foi baseado em dados reais com cooperação dos dados do SISAGUA e SNIS visando uma maior monitoria com foco em dados, transparência e apoio à políticas públicas.
+                <span className="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent font-bold">{t('projects.sisma_title')}</span><br></br><br/>
+                <span dangerouslySetInnerHTML={{ __html: t('projects.sisma_description') }}></span>
               </p>
             </div>
           </div>
           </ScrollReveal>
-
           {/* Grid de Cards de Projetos */}
           <div className="grid md:grid-cols-2 gap-8 mb-13">
             {projects.map((project, index) => (
@@ -539,10 +499,10 @@ const Portfolio = () => {
                 <div className={`h-2 bg-gradient-to-r ${project.color}`}></div>
                 <div className="p-6">
                   <h3 className="text-2xl font-bold mb-3 group-hover:text-cyan-400 transition-colors">
-                    {project.title}
+                    {t(`projects.${project.title}_title`)}
                   </h3>
                   <p className="text-gray-400 mb-4 leading-relaxed">
-                    {project.description}
+                    {t(`projects.${project.title}_description`)}
                   </p>
                   <div className="flex flex-wrap gap-2 mb-4">
                     {project.tech.map((tech, i) => (
@@ -561,7 +521,7 @@ const Portfolio = () => {
                     className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors"
                   >
                     <Github className="w-5 h-5" />
-                    <span>Ver no GitHub</span>
+                    <span>{t('projects.github_button')}</span>
                   </a>
                 </div>
               </div>
@@ -570,32 +530,26 @@ const Portfolio = () => {
           </div>
         </div>
       </section>
-
       {/* Contato Section */}
       <section id="contato" className="py-[10rem] px-4">
         <div className="max-w-4xl mx-auto text-center">
           <ScrollReveal>
           <h2 className="text-4xl md:text-5xl font-bold mb-20 -mt-20">
             <span className="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
-              Entre em Contato
+              {t('contact.title')}
             </span>
           </h2>
           </ScrollReveal>
-
           <ScrollReveal delay={200}>
-          <p className="text-xl text-gray-300 mb-25">
-            Tem um projeto em mente?<br /><b>Vamos conversar e transformar suas ideias em realidade!</b>
-          </p>
+          <p className="text-xl text-gray-300 mb-25" dangerouslySetInnerHTML={{ __html: t('contact.description') }}></p>
           </ScrollReveal>
-
           <ScrollReveal delay={400}>
           <div className="max-w-md mx-auto">
             <div className="space-y-4">
               <a className="flex items-center gap-4 p-4 bg-gray-900/50 border border-gray-800 rounded-lg hover:border-cyan-500/50 transition-all hover:shadow-lg hover:shadow-cyan-500/10">
                 <Mail className="w-6 h-6 text-cyan-400" />
-                <span>gestaofilipeferreira@gmail.com</span>
+                <span>{t('contact.email')}</span>
               </a>
-
               <a
                 href="https://github.com/filipeFerreira7"
                 target="_blank"
@@ -603,9 +557,8 @@ const Portfolio = () => {
                 className="flex items-center gap-4 p-4 bg-gray-900/50 border border-gray-800 rounded-lg hover:border-cyan-500/50 transition-all hover:shadow-lg hover:shadow-cyan-500/10"
               >
                 <Github className="w-6 h-6 text-cyan-400" />
-                <span>GitHub</span>
+                <span>{t('contact.github')}</span>
               </a>
-
               <a
                 href="https://www.linkedin.com/in/ffilipe7/"
                 target="_blank"
@@ -613,14 +566,13 @@ const Portfolio = () => {
                 className="flex items-center gap-4 p-4 bg-gray-900/50 border border-gray-800 rounded-lg hover:border-cyan-500/50 transition-all hover:shadow-lg hover:shadow-cyan-500/10"
               >
                 <Linkedin className="w-6 h-6 text-cyan-400" />
-                <span>LinkedIn</span>
+                <span>{t('contact.linkedin')}</span>
               </a>
             </div>
           </div>
           </ScrollReveal>
         </div>
       </section>
-
       {/* Footer */}
       <footer className="py-8 px-4 border-t border-gray-800">
         <div className="max-w-6xl mx-auto text-center">
@@ -628,10 +580,10 @@ const Portfolio = () => {
           <p className="text-gray-400">
             © 2025{" "}
             <span className="text-cyan-400 font-semibold"></span> -
-            Todos os direitos reservados
+            {t('footer.copyright')}
           </p>
           <p className="text-gray-500 text-sm mt-2">
-            Desenvolvido com React e Tailwind CSS
+            {t('footer.built_with')}
           </p>
           </ScrollReveal>
         </div>
@@ -639,5 +591,4 @@ const Portfolio = () => {
     </div>
   );
 };
-
 export default Portfolio;

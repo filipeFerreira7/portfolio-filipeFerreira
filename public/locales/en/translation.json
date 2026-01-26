@@ -1,0 +1,60 @@
+{
+  "nav": {
+    "home": "Home",
+    "sobre": "About",
+    "skills": "Skills",
+    "projetos": "Projects",
+    "contato": "Contact"
+  },
+
+  "hero": {
+    "available": "Available for projects",
+    "greeting": "Hi, I'm Filipe!",
+    "title": "I'm a Systems Developer",
+    "stacks": "Main stacks: <b>Java, SpringBoot, PHP, TypeScript, Laravel.</b><br /><b>Creating new experiences with technology!</b>",
+    "view_projects": "View Projects",
+    "get_in_touch": "Get in Touch"
+  },
+
+  "about": {
+    "title": "About Me",
+    "description_1": "I'm a Back-End developer with a <b>focus on Java, Spring Boot, PHP, REST APIs, and DevOps practices.</b> I have practical experience in organizational and academic projects, always aiming to create scalable and efficient solutions. I've been studying <b>Java for over 3 years</b>, during which I've honed my skills in systems development, API integration, and software architecture best practices.",
+    "description_2": "During my internship at the <b>Regional Electoral Court of Tocantins (TRE-TO)</b>, I worked in the <b>Infrastructure and Internal Systems Development</b> area. I participated in the creation and maintenance of <b>published applications</b> that streamlined the daily work of public servants, optimizing administrative workflows.",
+    "description_3": "I've developed and collaborated on various projects, from e-commerce systems to internal tools for the Court. I always seek to balance performance with technical quality. I believe technology is about solving real problems.",
+    "experience": "1+ year of experience",
+    "published_projects": "2+ published projects"
+  },
+
+  "skills": {
+    "title": "Skills"
+  },
+
+  "projects": {
+    "title": "Projects",
+    "featured_intro": "The highlighted projects are: <b className=\"bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent font-bold\">Registra Sistemas</b> and <b className=\"bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent font-bold\">Sisma-TO</b>",
+    "registra_title": "Registra Sistemas - TRE-TO",
+    "registra_subtitle": "Sistema de centralização de sistemas publicados (em produção/homologação)",
+    "registra_description": "Registra Sistemas was developed for internal use at TRE-TO. The main technologies used were PHP and Laravel. The system's purpose is to centralize control of applications in production, homologation, and development, facilitating management and monitoring of institutional systems.",
+    "sisma_title": "Sisma-TO",
+    "sisma_subtitle": "Sistema de monitoramento da água e saneamento do Tocantins",
+    "sisma_description": "<b>2nd place winner at the UNITINS Hackathon (2025)</b>, Sisma-TO (Tocantins Water Monitoring and Governance System) is a platform for governmental use regarding water quality and sanitation in Tocantins. The system is based on real data in collaboration with SISAGUA and SNIS, aiming for greater monitoring with a focus on data, transparency, and support for public policies.",
+    "github_button": "View on GitHub",
+    "ecommerceemjavacomquarkus_title": "E-commerce in Java with Quarkus",
+    "ecommerceemjavacomquarkus_description": "Advanced e-commerce example in Java using Postgres, with Quarkus",
+    "apidegestaoresidencialinviteusconvites_title": "Residential Management API - InviteUs (Invites)",
+    "apidegestaoresidencialinviteusconvites_description": "API for managing residential invites, such as access to condominiums and apartments."
+  },
+
+  "contact": {
+    "title": "Get in Touch",
+    "description": "Have a project in mind?<br /><b>Let's talk and turn your ideas into reality!</b>",
+    "email": "gestaofilipeferreira@gmail.com",
+    "github": "GitHub",
+    "linkedin": "LinkedIn"
+  },
+
+  "footer": {
+    "copyright": "All rights reserved",
+    "built_with": "Built with React and Tailwind CSS"
+  }
+}

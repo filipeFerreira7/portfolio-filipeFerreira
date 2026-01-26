@@ -14,3 +14,4 @@ export interface Project {
 }
 
 export type SectionId = "home" | "sobre" | "skills" | "projetos" | "contato";
+
